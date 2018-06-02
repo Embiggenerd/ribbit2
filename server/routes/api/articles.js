@@ -36,6 +36,7 @@ router.post('/', (req, res, next) => {
 });
 
 router.get('/', (req, res, next) => {
+  // We run save on schema instance, but we respond with schemaInsta.toJSON() custom method. 
   return Articles.find()
     .sort({ createdAt: 'descending' })
     .then((articles) => res.json({ articles: articles.map(article => article.toJSON()) }))

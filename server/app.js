@@ -10,19 +10,19 @@ const mongoose = require('mongoose');
 mongoose.promise = global.Promise;
 
 const isProduction = process.env.NODE_ENV === 'production';
-
+console.log("backend process env", process.env.NODE_ENV)
 const app = express();
 
 app.use(cors());
 app.use(require('morgan')('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(function (req, res, next) {
+// app.use(function (req, res, next) {
 
-  // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080')
-  next()
-})
+//   // Website you wish to allow to connect
+//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080')
+//   next()
+// })
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'LightBlog', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
 
