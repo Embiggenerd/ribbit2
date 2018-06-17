@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const router = require('express').Router()
-const Articles = mongoose.model('Articles')
+
 const articlesController = require('../../controllers').articles
 
 router.post('/', articlesController.submitArticle)

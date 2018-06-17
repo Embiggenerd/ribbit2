@@ -1,14 +1,9 @@
 const mongoose = require('mongoose')
 const Articles = mongoose.model('Articles')
 
-const getArticles = (req, res, next) => {
-  // We run save on schema instance, but we respond with schemaInsta.toJSON() custom method.
-  return Articles.find()
-    .sort({ createdAt: 'descending' })
-    .then(articles =>
-      res.json({ articles: articles.map(article => article.toJSON()) })
-    )
-    .catch(next)
+const getArticles = async (req, res, next) => {
+  const articles = await Articles.find().sort({ createdAt: 'descending' })
+  return res.json({ articles: articles.map(article => article.toJSON()) })
 }
 
 const submitArticle = (req, res, next) => {
