@@ -9,29 +9,39 @@ const mongoose = require('mongoose');
 
 mongoose.promise = global.Promise;
 
-const isProduction = process.env.NODE_ENV === 'production';
-console.log("backend process env", process.env.NODE_ENV)
+
+
 const app = express();
 
 app.use(cors());
 app.use(require('morgan')('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-// app.use(function (req, res, next) {
-
-//   // Website you wish to allow to connect
-//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080')
-//   next()
-// })
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'LightBlog', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
 
-if(!isProduction) {
+const isProd = process.env.NODE_ENV === 'production';
+const isTest = process.env.NODE_ENV === "test"
+const isDev = process.env.NODE_ENV === "development"
+
+if(isDev) {
+  mongoose.connect('mongodb://ribbit2-dev:ribbit2-dev@ds163510.mlab.com:63510/ribbit2_dev');
+  app.use(errorHandler());
+  mongoose.set('debug', true);
+}
+
+if(isProd) {
+  mongoose.connect('mongodb://ribbit2-prod:ribbit2-prod@ds163530.mlab.com:63530/ribbit2')
+}
+
+if(isTest) {
+  mongoose.connect('mongodb://ribbit2-test:ribbit2-test@ds263590.mlab.com:63590/ribbit2-test')
   app.use(errorHandler());
 }
 
-mongoose.connect('mongodb://igor:password1@ds245210.mlab.com:45210/simple_blog_dev');
-mongoose.set('debug', true);
+// if()
+// mongoose.connect('mongodb://igor:password1@ds245210.mlab.com:45210/simple_blog_dev');
+// mongoose.set('debug', true);
 
 // Add models
 require('./models/Articles');
@@ -44,7 +54,7 @@ app.use((req, res, next) => {
   next(err);
 });
 
-if (!isProduction) {
+if (!isProd) {
   app.use((err, req, res) => {
     res.status(err.status || 500);
 
@@ -68,4 +78,5 @@ app.use((err, req, res) => {
   });
 });
 
-const server = app.listen(8000, () => console.log('Server started on http://localhost:8000'));
+module.exports = app
+// const server = app.listen(8000, () => console.log('Server started on http://localhost:8000'));

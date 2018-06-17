@@ -1,0 +1,49 @@
+{
+  "name": "simpleblog",
+  "version": "1.0.0",
+  "description": "'https://github.com/AntonioErdeljac/Blog-Tutorial/tree/master/client'",
+  "main": "app.js",
+  "scripts": {
+    "server-dev": "cross-env NODE_ENV=prod nodemon server/index.js",
+    "client-dev": "npm start --prefix client",
+    "start-dev": "concurrently \"npm run server-dev\" \"npm run client-dev\"",
+    "test": "cross-env NODE_ENV=test mocha --timeout 5000 __tests__/server/**/*.test.js",
+    "report": "cross-env NODE_ENV=test nyc --reporter=lcov mocha --timeout 5000 __tests__/server/**/*.test.js",
+    "text-report": "cross-env NODE_ENV=test nyc --reporter=text-summary mocha --timeout 5000 __tests__/server/**/*.test.js",
+    "nyc": "cross-env NODE_ENV=test nyc mocha --timeout 5000 __tests__/server/**/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AntonioErdeljac/Blog-Tutorial/tree/master/client"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "errorhandler": "^1.5.0",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "joi": "^13.4.0",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.1.5",
+    "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "chai": "*",
+    "chai-http": "^4.0.0",
+    "cross-env": "*",
+    "express-promise-router": "*",
+    "faker": "*",
+    "mocha": "^5.2.0",
+    "nyc": "^13.0.0",
+    "rewire": "^4.0.1",
+    "sinon": "^6.0.0",
+    "sinon-chai": "^3.2.0"
+  }
+}
