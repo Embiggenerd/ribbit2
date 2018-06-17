@@ -45,7 +45,7 @@ passport.use(
           return done(null, false)
         }
         // Check if password is correct
-        const doPassesMatch = user.isPassValid(password)
+        const doPassesMatch = await user.isPassValid(password)
 
         // If not, handle error
         if (!doPassesMatch) {

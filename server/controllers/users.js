@@ -40,9 +40,9 @@ module.exports = {
   },
 
   signIn: async (req, res, next) => {
-    // generates token
 
-    console.log('successful login')
+    const token = signToken(req.user)
+    res.status(200).json({ token, secret:"secret boobiez" })
   },
 
   secret: async (req, res, next) => {
