@@ -45,5 +45,18 @@
     "rewire": "^4.0.1",
     "sinon": "^6.0.0",
     "sinon-chai": "^3.2.0"
+  },
+  "nyc": {
+    "exclude": [
+      "server/app.js",
+      "server/configuration/index.js",
+      "server/passport.js",
+      "server/models/**/*.js",
+      "server/helpers/**/*.js",
+      "__tests__",
+      "node_modules"
+    ],
+    "cache": false,
+    "report-dir": "./__tests__/report"
   }
 }
