@@ -1,53 +1,53 @@
-const path = require('path');
-const express = require('express');
-const bodyParser = require('body-parser');
-const session = require('express-session');
-const cors = require('cors');
-const errorHandler = require('errorhandler');
-const mongoose = require('mongoose');
+const path = require("path");
+const express = require("express");
+const bodyParser = require("body-parser");
+const session = require("express-session");
+const cors = require("cors");
+const errorHandler = require("errorhandler");
+const mongoose = require("mongoose");
 
-const isProd = process.env.NODE_ENV === 'production';
-const isTest = process.env.NODE_ENV === 'test';
-const isDev = process.env.NODE_ENV === 'development';
+const isProd = process.env.NODE_ENV === "production";
+const isTest = process.env.NODE_ENV === "test";
+const isDev = process.env.NODE_ENV === "development";
 
 mongoose.promise = global.Promise;
 
+const app = express();
+
 if (isDev) {
   mongoose.connect(
-    'mongodb://ribbit2-dev:ribbit2-dev@ds163510.mlab.com:63510/ribbit2_dev'
+    "mongodb://ribbit2-dev:ribbit2-dev@ds163510.mlab.com:63510/ribbit2_dev"
   );
   app.use(errorHandler());
-  mongoose.set('debug', true);
+  mongoose.set("debug", true);
 }
 
 if (isProd) {
   mongoose.connect(
-    'mongodb://ribbit2-prod:ribbit2-prod@ds163530.mlab.com:63530/ribbit2'
+    "mongodb://ribbit2-prod:ribbit2-prod@ds163530.mlab.com:63530/ribbit2"
   );
 }
 
 if (isTest) {
   mongoose.connect(
-    'mongodb://ribbit2-test:ribbit2-test@ds263590.mlab.com:63590/ribbit2-test',
+    "mongodb://ribbit2-test:ribbit2-test@ds263590.mlab.com:63590/ribbit2-test",
     () => {
       mongoose.connection.dropDatabase(() => {
-        console.log('\n Test database dropped');
+        console.log("\n Test database dropped");
       });
     }
   );
   //app.use(errorHandler());
 }
 
-const app = express();
-
 app.use(cors());
-app.use(require('morgan')('dev'));
+app.use(require("morgan")("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(
   session({
-    secret: 'LightBlog',
+    secret: "LightBlog",
     cookie: { maxAge: 60000 },
     resave: false,
     saveUninitialized: false
@@ -59,12 +59,12 @@ app.use(
 // mongoose.set('debug', true);
 
 // Add models
-require('./models/Articles');
+require("./models/Articles");
 // Add routes
-app.use(require('./routes'));
+app.use(require("./routes"));
 
 app.use((req, res, next) => {
-  const err = new Error('Not Found');
+  const err = new Error("Not Found");
   err.status = 404;
   next(err);
 });
@@ -93,6 +93,5 @@ app.use((err, req, res) => {
   });
 });
 
-console.log('db is', mongoose.connection);
 module.exports = app;
 // const server = app.listen(8000, () => console.log('Server started on http://localhost:8000'));

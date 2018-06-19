@@ -2,7 +2,7 @@ const JWT = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config');
 const User = require('../models/Users');
 
-signToken = user =>
+const signToken = user =>
   JWT.sign(
     {
       iss: 'nodeApiAuth',
@@ -22,7 +22,7 @@ module.exports = {
     if (foundUser) {
       return res
         .status(403)
-        .json({ error: `${email} already exists in database` });
+        .json({ error: `${email} already exists in the database.` });
     }
     // create new user
     const newUser = new User({
