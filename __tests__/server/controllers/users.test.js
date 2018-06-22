@@ -94,7 +94,7 @@ describe("Users controller", () => {
 
       try {
         await userController.signUp(req, res);
-        console.log("test req, res", req, res);
+        // console.log("test req, res", req, res);
 
         expect(res.status).to.have.been.calledWith(403);
         expect(res.json).to.have.been.calledWith({
