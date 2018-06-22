@@ -1,7 +1,7 @@
 const chai = require("chai");
 const chaiHTTP = require("chai-http");
 const faker = require("faker");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { expect } = chai;
 
 const server = require("../../../server/app");
@@ -24,16 +24,20 @@ describe("Users route", () => {
     password: faker.internet.password()
   };
 
-  before(async () => {
-    const result = await chai
+  before("Assigning to token.", async () => {
+    try {
+      const result = await chai
       .request(server)
       .post(signup)
       .send(preSave);
     expect(result.status).to.equal(200);
     token = result.body.token;
+    } catch(e) {
+      console.log(e)
+    }
   });
 
-  after("droping test db", async () => {
+  after("Sropping test db.", async () => {
     await mongoose.connection.dropDatabase(() => {
       console.log("\n Test database dropped");
     });

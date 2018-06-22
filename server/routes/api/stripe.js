@@ -3,7 +3,7 @@ const router = require('express-promise-router')();
 const passport = require('passport');
 const stripe = require('stripe');
 
-const stripeController = require('../../controllers').userController;
+const stripeController = require('../../controllers').stripe;
 
 router
   .route('/')
@@ -16,3 +16,5 @@ router
 // pass token to stripe
 
 // call stripe's create charge function
+
+module.exports = router;
