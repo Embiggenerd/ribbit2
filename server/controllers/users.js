@@ -38,9 +38,14 @@ module.exports = {
       token
     });
   },
-
+  /**
+   * Check that login infornation was correct happens in
+   * passport.authenticate('local') in routes, so req.user
+   * is data that has already been validated
+   */
   signIn: async (req, res, next) => {
     const token = signToken(req.user);
+    // res with token so user can store it to stay logged in
     res.status(200).json({ token });
   },
 

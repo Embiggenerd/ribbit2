@@ -1,36 +1,58 @@
-const chai = require("chai");
-const chaiHTTP = require("chai-http");
-const faker = require("faker");
-const mongoose = require("mongoose");
+const chai = require('chai');
+const chaiHTTP = require('chai-http');
+const faker = require('faker');
+const mongoose = require('mongoose');
 const { expect } = chai;
+const sinon = require('sinon');
+const sinonChai = require('sinon-chai');
+const rewire = require('rewire');
+const passport = rewire('passport');
 
-const server = require("../../../server/app");
+let route = require('../../../routes/api/stripe');
+
+const server = require('../../../server/app');
 
 chai.use(chaiHTTP);
 
 let token;
 
-describe("Stripe route", () => {
-  const stripe = "/api/stripe/";
+describe('Stripe route', () => {
+  const stripe = '/api/stripe/';
   const unauthedUser = {
     user: {},
-    id: "token"
+    id: 'token'
+  };
+  const authedUser = {
+    user: 'xyz'
   };
 
-  it("Should return error if user not authenticated", async (done) => {
+  it('Should return 401 if user not authenticated.', async () => {
     try {
       const result = await chai
         .request(server)
         .post(stripe)
         .send(unauthedUser);
-      
-      expect(result.status).to.equal(200)
-      done()
+      expect(result.status).to.equal(401);
     } catch (e) {
-      done(e)
-      console.log(e);
+      throw new Error(e);
     }
-    
+  });
+
+  it('Should respond with 200 if req authentic.', async () => {
+    const sandbox = sinon.createSandbox();
+    sandbox.stub(passport, 'authenticate').returns((req.user = 'user'));
+
+    sandbox.restore();
+    // let
+    // try {
+    //   const result = await chai
+    //     .request(server)
+    //     .post(stripe)
+    //     .set(authedUser);
+    //   expect(result.status).to.equal(200);
+    // } catch (e) {
+    //   throw new Error(e);
+    // }
   });
 });
 

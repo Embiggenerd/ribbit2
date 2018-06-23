@@ -7,14 +7,6 @@ const stripeController = require('../../controllers').stripe;
 
 router
   .route('/')
-  .post(
-    passport.authenticate('local', { session: false }),
-    stripeController.pay
-  );
-// make sure user is authenticated
-
-// pass token to stripe
-
-// call stripe's create charge function
+  .post(passport.authenticate('jwt', { session: false }), stripeController.pay);
 
 module.exports = router;

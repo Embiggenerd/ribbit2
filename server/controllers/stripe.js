@@ -14,10 +14,10 @@ const stripe = require('stripe');
 //   }
 // };
 module.exports = {
-  pay: async (req, res, next) =>  {
-    res.send("stripe url post received")
+  pay: async (req, res, next) => {
+    res.send('stripe url post received');
   }
-}
+};
 // // make sure user is authenticated
 
 // pass token to stripe
