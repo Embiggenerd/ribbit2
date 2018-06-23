@@ -9,4 +9,8 @@ router
   .route('/')
   .post(passport.authenticate('jwt', { session: false }), stripeController.pay);
 
+// router
+// .route('/')
+// .post(stripeController.pay);
+
 module.exports = router;
