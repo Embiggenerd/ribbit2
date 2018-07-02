@@ -19,13 +19,11 @@ router
   .post(validateBody(schemas.authSchema), usersController.signUp);
 
 // Validating email/password happens in the authentication wrapper
-router
-  .route('/signin')
-  .post(
-    validateBody(schemas.authSchema),
-    passport.authenticate('local', { session: false }),
-    usersController.signIn
-  );
+router.route('/signin').post(
+  //validateBody(schemas.authSchema),
+  passport.authenticate('local', { session: false }),
+  usersController.signIn
+);
 
 router
   .route('/secret')

@@ -18,7 +18,6 @@ describe('Users route', () => {
     email: faker.internet.email(),
     password: faker.internet.password()
   };
-
   const preSave = {
     email: 'iggles@internet.com',
     password: faker.internet.password()
@@ -39,7 +38,7 @@ describe('Users route', () => {
 
   after('Stopping test db.', async () => {
     await mongoose.connection.dropDatabase(() => {
-      console.log('\n Test database dropped');
+      console.log('\n Test database dropped2');
     });
     await mongoose.connection.close();
   });
