@@ -59,10 +59,15 @@ describe('Stripe route', () => {
       }
     });
     after('Stopping test db.', async () => {
-      await mongoose.connection.dropDatabase(() => {
-        console.log('\n Test database droppednz');
-      });
-      await mongoose.connection.close();
+      try {
+        await mongoose.connection.dropDatabase(() => {
+          console.log('\n Test database droppednz');
+        });
+        await mongoose.connection.close(()=>console.log('connection closed'));
+      } catch (e) {
+        throw new Error(e)
+      }
+      
     });
 
     it('Should respond with 200 if req authentic.', async () => {

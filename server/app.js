@@ -25,9 +25,9 @@ const testDbConnect = async () => {
         //   });
         // }
       );
-      await conn.connection.dropDatabase(() => {
-        console.log('\n Test database dropped3');
-      });
+      // await conn.connection.dropDatabase(() => {
+      //   console.log('\n Test database dropped3');
+      // });
     } catch (e) {
       console.log(e);
     }
