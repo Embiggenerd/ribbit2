@@ -6,30 +6,27 @@ const cors = require('cors');
 const errorHandler = require('errorhandler');
 const mongoose = require('mongoose');
 
-// const isProd = process.env.NODE_ENV === 'production';
-// const isTest = process.env.NODE_ENV === 'test';
-// const isDev = process.env.NODE_ENV === 'development';
-
-// mongoose.promise = global.Promise;
-
 const app = express();
 
+const isProd = process.env.NODE_ENV === 'production';
+// const isTest = process.env.NODE_ENV === 'test';
+const isDev = process.env.NODE_ENV === 'development';
 
+mongoose.promise = global.Promise;
 
-// if (isDev) {
-//   mongoose.connect(
-//     'mongodb://ribbit2-dev:ribbit2-dev@ds163510.mlab.com:63510/ribbit2_dev'
-//   );
-//   app.use(errorHandler());
-//   mongoose.set('debug', true);
-// }
+if (isDev) {
+  mongoose.connect(
+    'mongodb://ribbit2-dev:ribbit2-dev@ds163510.mlab.com:63510/ribbit2_dev'
+  );
+  app.use(errorHandler());
+  mongoose.set('debug', true);
+}
 
-// if (isProd) {
-//   mongoose.connect(
-//     'mongodb://ribbit2-prod:ribbit2-prod@ds163530.mlab.com:63530/ribbit2'
-//   );
-// }
-
+if (isProd) {
+  mongoose.connect(
+    'mongodb://ribbit2-prod:ribbit2-prod@ds163530.mlab.com:63530/ribbit2'
+  );
+}
 
 // if (isTest) {
 //   mongoose.connect(
@@ -56,9 +53,9 @@ app.use(
 // mongoose.connect('mongodb://igor:password1@ds245210.mlab.com:45210/simple_blog_dev');
 // mongoose.set('debug', true);
 
-// Add models
+// // Add models
 require('./models/Articles');
-// Add routes
+// // Add routes
 app.use(require('./routes'));
 
 app.use((req, res, next) => {

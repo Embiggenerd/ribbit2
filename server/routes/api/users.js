@@ -9,7 +9,7 @@ const usersController = require('../../controllers').users;
 
 /**
  * Local strategy is used to create user in database.
- * JWT strategy only used to create remember user, so they don't
+ * JWT strategy only used to remember user, so they don't
  * have to login every time. That is why we use different
  * authentication requirements in routes.
  */
