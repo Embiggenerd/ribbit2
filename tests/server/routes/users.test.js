@@ -1,7 +1,10 @@
-const app = require('../../../server/app');
 const request = require('supertest');
 const mongoose = require('mongoose');
 const faker = require('faker');
+
+const UserModel = require('../../../server/models/Users')
+const app = require('../../../server/app.js');
+
 
 /**
  * First describe layer for encapsulatig before/after hooks for
@@ -11,6 +14,7 @@ const faker = require('faker');
 
 const testDB =
   'mongodb://ribbit2-test:ribbit2-test@ds263590.mlab.com:63590/ribbit2-test';
+const localTestDB = 'mongodb://localhost/ribbit2-test'
 
 describe('App exists.', () => {
   test('Has a module.', () => {
@@ -25,17 +29,17 @@ describe('App exists.', () => {
       server = await app.listen(3001, () => {
         console.log('Listening on 3001');
       });
-      await mongoose.connect(testDB);
+      await mongoose.connect(localTestDB);
       mongoose.connection.on('connected', () => {
         console.log('Connected to test db');
       });
+      await UserModel.remove({})
     } catch (e) {
       throw new Error(e);
     }
   });
 
   afterAll(done => {
-    console.log('Close connection');
     mongoose.connection.close();
     server.close(done());
   });
@@ -50,25 +54,25 @@ describe('App exists.', () => {
       email: faker.internet.email(),
       password: faker.internet.password()
     };
-    const preSave = {
-      email: 'igglesTheClown@gmail.com',
+    const newUserData = {
+      email: faker.internet.email(),
       password: faker.internet.password()
     };
 
-    beforeAll(async () => {
-      console.log('Defining token.');
-      try {
-        const res = await request(server)
-          .post(signUp)
-          .send(preSave);
-        expect(res.statusCode).toEqual(200);
-        expect(response.type).toEqual('application/json');
-        token = result.body.token;
-        console.log('token', token);
-      } catch (e) {
-        throw new Error(e);
-      }
-    });
+    // beforeAll(async () => {
+    //   try {
+    //     const res = await request(server)
+    //       .post(signUp)
+    //       .send(newUserData);
+    //     expect(res.statusCode).toEqual(200);
+    //     expect(response.type).toEqual('application/json');
+    //     token = result.body.token;
+    //     console.log('token', token)
+    //     console.log('body', res.body)
+    //   } catch (e) {
+    //     throw new Error(e);
+    //   }
+    // });
 
     describe('Signup', () => {
       it('Should crate new user if email unique', async () => {
@@ -77,8 +81,8 @@ describe('App exists.', () => {
             .post(signUp)
             .send(user);
           expect(res.statusCode).toEqual(200);
-          expect(result.body).toBeTruthy();
-          expect(result.body).toHaveProperty('token');
+          expect(res.body).toBeTruthy();
+          expect(res.body).toHaveProperty('token');
         } catch (e) {
           throw new Error(e);
         }

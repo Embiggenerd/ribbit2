@@ -53,9 +53,8 @@ app.use(
 // mongoose.connect('mongodb://igor:password1@ds245210.mlab.com:45210/simple_blog_dev');
 // mongoose.set('debug', true);
 
-// // Add models
 require('./models/Articles');
-// // Add routes
+
 app.use(require('./routes'));
 
 app.use((req, res, next) => {
