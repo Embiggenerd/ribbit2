@@ -1,11 +1,12 @@
-const JWT = require('jsonwebtoken');
-const { JWT_SECRET } = require('../config');
-const User = require('../models/Users');
+const JWT = require("jsonwebtoken");
+const stripe = require("stripe")("sk_test_pvfx8vd9zb2O30gcsroRwieK");
+const { JWT_SECRET } = require("../config");
+const User = require("../models/Users");
 
 const signToken = user =>
   JWT.sign(
     {
-      iss: 'nodeApiAuth',
+      iss: "nodeApiAuth",
       sub: user.id,
       iat: new Date().getTime(),
       exp: new Date().setDate(new Date().getDate() + 1)
@@ -50,6 +51,23 @@ module.exports = {
   },
 
   secret: async (req, res, next) => {
-    res.json({ secret: 'resource' });
+    res.json({ secret: "resource" });
+  },
+
+  stripe: async (req, res, next) => {
+    try {
+      await stripe.charges.create({
+        amount: 500,
+        currency: "usd",
+        description: "5 dollars please",
+        source: req.body.id
+      });
+      const user = await User.findOne({ id: req.id });
+      user.credits += 5;
+      const savedUser = await user.save();
+      res.send(savedUser);
+    } catch (e) {
+      res.status(500).send(e);
+    }
   }
 };

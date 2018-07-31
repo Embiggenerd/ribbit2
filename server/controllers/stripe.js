@@ -1,5 +1,5 @@
-const stripe = require('stripe');
-
+const stripe = require("stripe")("sk_test_pvfx8vd9zb2O30gcsroRwieK");
+const UserModel = require("../models/Users");
 // module.exports = {
 //   pay: async (req, res, next) => {
 //     const charge = await stripe.charges.create({
@@ -15,7 +15,20 @@ const stripe = require('stripe');
 // };
 module.exports = {
   pay: async (req, res, next) => {
-    res.send('stripe url post received');
+    try {
+      await stripe.charges.create({
+        amount: 500,
+        currency: "usd",
+        description: "5 dollars please",
+        source: req.body.id
+      });
+      const user = await UserModel.findOne({ id: req.id });
+      user.credits += 5
+      const savedUser = await user.save()
+      res.send(savedUser);
+    } catch (e) {
+      res.status(500).send(e);
+    }
   }
 };
 // // make sure user is authenticated
