@@ -29,13 +29,11 @@ module.exports = {
     const newUser = new User({
       email,
       password
-    });
-
-    await newUser.save();
-
-    const token = signToken(newUser);
-
+    })
+    const user = await newUser.save();
+    const token = signToken(user);
     res.status(200).json({
+      user:user.toJSON(),
       token
     });
   },
@@ -45,9 +43,12 @@ module.exports = {
    * is data that has already been validated
    */
   signIn: async (req, res, next) => {
-    const token = signToken(req.user);
+    const { user } = req
+    console.log('uzer', user) 
+    const token = signToken(user);
     // res with token so user can store it to stay logged in
-    res.status(200).json({ token });
+    //delete user.prototype.password
+    res.status(200).json({ token, user:user.toJSON() });
   },
 
   secret: async (req, res, next) => {
@@ -60,13 +61,15 @@ module.exports = {
         amount: 500,
         currency: "usd",
         description: "5 dollars please",
-        source: req.body.id
+        source: req.body.token
       });
-      const user = await User.findOne({ id: req.id });
+      // const user = await User.findOne({ id: req.id })
+      let {user} = req
       user.credits += 5;
-      const savedUser = await user.save();
-      res.send(savedUser);
+      user = await user.save();
+      res.send({user: user.toJSON()});
     } catch (e) {
+      console.log(e)
       res.status(500).send(e);
     }
   }

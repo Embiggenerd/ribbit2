@@ -18,7 +18,7 @@ const userSchema = new Schema({
     type: Number,
     default: 0
   }
-})
+}, { timestamps: true })
 
 userSchema.pre('save', async function(next) {
   try {
@@ -41,7 +41,15 @@ userSchema.methods.isPassValid = async function(newPassword) {
     throw new Error(e)
   }
 }
+ userSchema.methods.toJSON = function() {
+   return {
+     id:this._id,
+     email: this.email,
+     credits: this.credits,
+     createdAt: this.createdAt,
+     updatedAt: this.updatedAt,
+   }
+ }
 
-const User = mongoose.model('user', userSchema)
+module.exports = mongoose.model('user', userSchema)
 
-module.exports = User

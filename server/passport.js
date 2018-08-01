@@ -15,7 +15,7 @@ passport.use(
     async (payload, done) => {
       try {
         // Find user decoded from token
-        const user = await Users.findById(payload.sub);
+        let user = await Users.findById(payload.sub);
 
         // If user doesn't exist, reject
         if (!user) {
@@ -52,6 +52,7 @@ passport.use(
         if (!doPassesMatch) {
           return done(null, false);
         }
+
         // Else return user
         done(null, user);
       } catch (e) {

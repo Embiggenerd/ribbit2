@@ -7,10 +7,10 @@ const stripeController = require('../../controllers').stripe;
 
 router
   .route('/')
-  .post(passport.authenticate('jwt', { session: false }), stripeController.pay);
+  .post(passport.authenticate('jwt', { session: false }), stripeController.stripe);
 
 // router
 // .route('/')
 // .post(stripeController.pay);
 
-module.exports = router;
+
