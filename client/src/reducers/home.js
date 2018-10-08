@@ -4,17 +4,18 @@ export default (state = { articles: [] }, action) => {
       return {
         ...state,
         articles: action.data.articles
-      }
+      };
     case 'SUBMIT_ARTICLE':
+      console.log('sub_article reducer', action);
       return {
         ...state,
         articles: [action.data.article].concat(state.articles)
-      }
+      };
     case 'SET_EDIT':
       return {
         ...state,
         articleToEdit: action.article
-      }
+      };
     case 'EDIT_ARTICLE':
       return {
         ...state,
@@ -22,18 +23,18 @@ export default (state = { articles: [] }, action) => {
           if (article._id === action.data.article._id) {
             return {
               ...action.data.article
-            }
+            };
           }
-          return article
+          return article;
         }),
         articleToEdit: undefined
-      }
+      };
     default:
-      return state
+      return state;
     case 'DELETE_ARTICLE':
       return {
         ...state,
         articles: state.articles.filter(article => article._id !== action.id)
-      }
+      };
   }
-}
+};

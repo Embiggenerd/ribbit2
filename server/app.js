@@ -12,11 +12,14 @@ const isProd = process.env.NODE_ENV === 'production';
 // const isTest = process.env.NODE_ENV === 'test';
 const isDev = process.env.NODE_ENV === 'development';
 
+console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+
 mongoose.promise = global.Promise;
 
 if (isDev) {
   mongoose.connect(
-    'mongodb://ribbit2-dev:ribbit2-dev@ds163510.mlab.com:63510/ribbit2_dev'
+    'mongodb://ribbit2-dev:ribbit2-dev@ds163510.mlab.com:63510/ribbit2_dev',
+    console.log('mongoose connected to ribbit2')
   );
   app.use(errorHandler());
   mongoose.set('debug', true);
@@ -39,7 +42,7 @@ app.use(cors());
 app.use(require('morgan')('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '..', 'client', 'public')));
 app.use(
   session({
     secret: 'LightBlog',
@@ -76,7 +79,7 @@ if (!isProd) {
   });
 }
 
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   res.status(err.status || 500);
 
   res.json({
@@ -88,4 +91,3 @@ app.use((err, req, res) => {
 });
 
 module.exports = app;
-// const server = app.listen(8000, () => console.log('Server started on http://localhost:8000'));
