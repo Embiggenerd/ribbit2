@@ -39,7 +39,7 @@ module.exports = {
     });
   },
   /**
-   * Check that login infornation was correct happens in
+   * Check that login information was correct happens in
    * passport.authenticate('local') in routes, so req.user
    * is data that has already been validated
    */

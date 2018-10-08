@@ -1,18 +1,18 @@
-const mongoose = require('mongoose')
-const router = require('express').Router()
+//const mongoose = require('mongoose')
+const router = require('express').Router();
 
-const articlesController = require('../../controllers').articles
+const articlesController = require('../../controllers').articles;
 
-router.post('/', articlesController.submitArticle)
+router.post('/', articlesController.submitArticle);
 
-router.get('/', articlesController.getArticles)
+router.get('/', articlesController.getArticles);
 
-router.param('id', articlesController.idParam)
+router.param('id', articlesController.idParam);
 
-router.get('/:id', articlesController.getSingleArticle)
+router.get('/:id', articlesController.getSingleArticle);
 
-router.patch('/:id', articlesController.updateArticle)
+router.patch('/:id', articlesController.updateArticle);
 
-router.delete('/:id', articlesController.deleteArticle)
+router.delete('/:id', articlesController.deleteArticle);
 
-module.exports = router
+module.exports = router;

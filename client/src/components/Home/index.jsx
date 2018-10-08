@@ -1,8 +1,8 @@
-import React from "react";
-import axios from "axios";
-import { connect } from "react-redux";
-import moment from "moment";
-import { Form } from "../../components/Article";
+import React from 'react';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import moment from 'moment';
+import { Form } from '../../components/Article';
 
 class Home extends React.Component {
   constructor(props) {
@@ -14,15 +14,13 @@ class Home extends React.Component {
 
   componentDidMount() {
     const { onLoad } = this.props;
-    axios("http://localhost:8000/api/articles").then(res => onLoad(res.data));
+    axios(' /api/articles').then(res => onLoad(res.data));
   }
 
   handleDelete(id) {
     const { onDelete } = this.props;
     // test this to see if backend delete fail results in front end delete success
-    return axios
-      .delete(`http://localhost:8000/api/articles/${id}`)
-      .then(() => onDelete(id));
+    return axios.delete(`/api/articles/${id}`).then(() => onDelete(id));
   }
 
   handleEdit(article) {
@@ -53,7 +51,7 @@ class Home extends React.Component {
                   <div className="card-body">
                     {article.body}
                     <p className="mt-5 text-muted">
-                      <b>{article.author}</b>{" "}
+                      <b>{article.author}</b>{' '}
                       {moment(new Date(article.createdAt)).fromNow()}
                     </p>
                   </div>
@@ -89,9 +87,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onLoad: data => dispatch({ type: "HOME_PAGE_LOADED", data }),
-  onDelete: id => dispatch({ type: "DELETE_ARTICLE", id }),
-  setEdit: article => dispatch({ type: 'SET_EDIT', article }),
+  onLoad: data => dispatch({ type: 'HOME_PAGE_LOADED', data }),
+  onDelete: id => dispatch({ type: 'DELETE_ARTICLE', id }),
+  setEdit: article => dispatch({ type: 'SET_EDIT', article })
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);
