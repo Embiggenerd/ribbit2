@@ -1,9 +1,13 @@
-const mongoose = require('mongoose');
-const Articles = mongoose.model('Articles');
+const mongoose = require("mongoose");
+const Articles = mongoose.model("Articles");
 
 const getArticles = async (req, res, next) => {
-  const articles = await Articles.find().sort({ createdAt: 'descending' });
-  return res.json({ articles: articles.map(article => article.toJSON()) });
+  try {
+    const articles = await Articles.find().sort({ createdAt: "descending" });
+    return res.json({ articles: articles.map(article => article.toJSON()) });
+  } catch (err) {
+    next(err);
+  }
 };
 
 const submitArticle = async (req, res, next) => {
@@ -12,7 +16,7 @@ const submitArticle = async (req, res, next) => {
   if (!body.title) {
     return res.status(422).json({
       errors: {
-        title: 'is required'
+        title: "is required"
       }
     });
   }
@@ -20,7 +24,7 @@ const submitArticle = async (req, res, next) => {
   if (!body.author) {
     return res.status(422).json({
       errors: {
-        author: 'is required'
+        author: "is required"
       }
     });
   }
@@ -28,24 +32,25 @@ const submitArticle = async (req, res, next) => {
   if (!body.body) {
     return res.status(422).json({
       errors: {
-        body: 'is required'
+        body: "is required"
       }
     });
   }
 
-  console.log('aritlce req.body', req.body);
+  // console.log("aritlce req.body", req.body);
 
   const finalArticle = new Articles(body);
 
-  console.log('finalArticle model', finalArticle);
+  // console.log("finalArticle model", finalArticle);
   try {
     const savedArticle = await finalArticle.save();
-    console.log('savedArticle', savedArticle);
+    // console.log("savedArticle", savedArticle);
     const json = await savedArticle.toJSON();
-    console.log('json', json);
-    res.send(json);
+    // console.log("json", json);
+    res.send({ article: json });
   } catch (e) {
-    () => console.log('eee', e);
+    // () => console.log("eee", e);
+    next(e)
   }
 
   // return finalArticle
@@ -60,15 +65,15 @@ const submitArticle = async (req, res, next) => {
 const updateArticle = (req, res, next) => {
   const { body } = req;
 
-  if (typeof body.title !== 'undefined') {
+  if (typeof body.title !== "undefined") {
     req.article.title = body.title;
   }
 
-  if (typeof body.author !== 'undefined') {
+  if (typeof body.author !== "undefined") {
     req.article.author = body.author;
   }
 
-  if (typeof body.body !== 'undefined') {
+  if (typeof body.body !== "undefined") {
     req.article.body = body.body;
   }
 
