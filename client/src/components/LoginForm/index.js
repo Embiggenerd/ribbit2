@@ -1,38 +1,32 @@
 import React from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
+import { withRouter } from 'react-router-domm'
 
-/*
-* Form's values are bound to state.
-* If articleToEdit is passed in props, we state the state's values to articleToEdit's values
-* This set's the form's values, and allows us to send patch request to server
-* because the submit/update button invokes post/patch request depending on if articleToEdit's truthiness*/
 
-class Form extends React.Component {
+class LoginForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      error: ''
     };
 
-    this.handleChangeField = this.handleChangeField.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleChangeField = this.handleChangeField.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.articleToEdit) {
-  //     this.setState({
-  //       title: nextProps.articleToEdit.title,
-  //       body: nextProps.articleToEdit.body,
-  //       author: nextProps.articleToEdit.author
-  //     });
-  //   }
-  // }
+  onSubmit(data, history) {
+    if ( data.user ) {
+      return history.push('/home')
+    }
+    return this.setState({error: data.error})
+  }
 
   handleSubmit() {
-    const { onSubmit } = this.props;
+    const { onSubmit, history } = this.props;
     const { email, password } = this.state;
 
   
@@ -43,12 +37,10 @@ class Form extends React.Component {
         })
         .then(res => {
           console.log('login res.data', res.data);
-          onSubmit(res.data);
+          onSubmit(res.data, history);
         })
         .then(() => this.setState({ email: '', password: '' }));
     } 
-      
-  }
 
   handleChangeField(key, event) {
     this.setState({
@@ -98,4 +90,4 @@ class Form extends React.Component {
 //   mapDispatchToProps
 // )(Form);
 
-export default withRouter(Form)
+export default withRouter(LoginForm)
