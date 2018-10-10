@@ -1,9 +1,24 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito|Poppins:500|Open+Sans');
-@import "~bootstrap/scss/bootstrap";
+@import '~bootstrap/scss/bootstrap';
 
-body, html {
+body,
+html {
   height: 100%;
-  background-color: rgba(0,0,0,.018);
-  color: rgba(0,0,0,.75);
+  background-color: rgba(0, 0, 0, 0.018);
+  color: rgba(0, 0, 0, 0.75);
   font-family: 'Nunito';
+}
+
+.sidebar {
+  position: fixed;
+  top: 51px;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-right: 1px solid #eee;
+  width: 100%;
+  min-height: 1px;
 }

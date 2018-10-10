@@ -60,6 +60,17 @@ require('./models/Articles');
 
 app.use(require('./routes'));
 
+app.get('/*', function(req, res) {
+  res.sendFile(
+    path.join(__dirname, '..', 'client', 'public', 'index.html'),
+    function(err) {
+      if (err) {
+        res.status(500).send(err);
+      }
+    }
+  );
+});
+
 app.use((req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;

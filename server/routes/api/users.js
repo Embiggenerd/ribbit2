@@ -1,11 +1,11 @@
-const express = require("express");
+const express = require('express');
 //const router = require('express').Router()
-const router = require("express-promise-router")();
-const passport = require("passport");
-const passportConf = require("../../passport");
+const router = require('express-promise-router')();
+const passport = require('passport');
+const passportConf = require('../../passport');
 
-const { validateBody, schemas } = require("../../helpers/routeHelpers");
-const usersController = require("../../controllers").users;
+const { validateBody, schemas } = require('../../helpers/routeHelpers');
+const usersController = require('../../controllers').users;
 
 /**
  * Local strategy is used to create user in database.
@@ -15,27 +15,29 @@ const usersController = require("../../controllers").users;
  */
 
 router
-  .route("/signup")
+  .route('/signup')
   .post(validateBody(schemas.authSchema), usersController.signUp);
 
 // Validating email/password happens in the authentication wrapper
-router.route("/signin").post(
-  //validateBody(schemas.authSchema),
-  passport.authenticate("local", { session: false }),
-  usersController.signIn
-);
+router
+  .route('/signin')
+  .post(
+    validateBody(schemas.authSchema),
+    passport.authenticate('local', { session: false }),
+    usersController.signIn
+  );
 
 router
-  .route("/secret")
+  .route('/secret')
   .get(
-    passport.authenticate("jwt", { session: false }),
+    passport.authenticate('jwt', { session: false }),
     usersController.secret
   );
 
 router
-  .route("/stripe")
+  .route('/stripe')
   .post(
-    passport.authenticate("jwt", { session: false }),
+    passport.authenticate('jwt', { session: false }),
     usersController.stripe
   );
 
