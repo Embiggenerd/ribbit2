@@ -1,19 +1,27 @@
-// export { default as LoginForm } from "./LoginForm";
-// export { default as LoginForm } from './LoginForm';
-// console.log('loginFormz', LoginForm)
-// connect this component: this is the component that 
-// does localstorage etc etc, asks if authorized, pushes 
-// register or home onto history
-
+import { connect } from 'react-redux';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const User = props => {
-  return (
-    <h1>
-      <Link to="/home">Home</Link>
-    </h1>
-  );
-};
+class User extends React.Component {
+  // on mount make api call to secret
+  // if token is valid, push home to history
+  // if token invalid, push to login or signup
+  render() {
+    const { auth } = this.props;
+    return (
+      <h1>
+        <Link to="/home">Home</Link>
+        USER COMPONENT
+      </h1>
+    );
+  }
+}
 
-export default User;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(User);

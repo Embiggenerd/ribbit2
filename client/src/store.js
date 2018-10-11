@@ -4,6 +4,7 @@ import { home } from './reducers';
 
 const reducers = combineReducers({
   home,
+  user
 });
 
 const store = createStore(reducers);

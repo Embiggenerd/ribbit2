@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { setAuthToken } from '../../utils';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -23,7 +22,7 @@ class LoginForm extends React.Component {
     const { email, password } = this.state;
 
     axios
-      .post('/api/signin', {
+      .post('/api/signup', {
         email,
         password
       })
@@ -46,6 +45,7 @@ class LoginForm extends React.Component {
     return (
       <div className="col-12 col-lg-6 offset-lg-3">
         <h1 className="text-center">Enter your email and password to login!</h1>
+
         <input
           onChange={ev => this.handleChangeField('email', ev)}
           className="form-control my-3"
@@ -72,11 +72,7 @@ class LoginForm extends React.Component {
 const mapDispatchToProps = dispatch => ({
   onSubmit: (data, history) => {
     if (data.user) {
-      const token = data.token;
-      LocalStorage.setItem('jwtToken', token);
-      setAuthToken(token);
-      dispatch({ type: 'AUTH_USER', data });
-      return history.push('/home');
+      history.push('/login');
     }
     return this.setState({ error: data.error });
   }
