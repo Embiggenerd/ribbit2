@@ -14,17 +14,23 @@ passport.use(
     },
     async (payload, done) => {
       try {
+        console.log('jwt payload', payload);
+
         // Find user decoded from token
         let user = await Users.findById(payload.sub);
+        console.log('user from jw jwt payload', user);
 
         // If user doesn't exist, reject
         if (!user) {
+          console.log('passport jwt no user');
+
           return done(null, false);
         }
 
         // Otherwise, return User
         done(null, user);
       } catch (err) {
+        console.log(err);
         done(err, false);
       }
     }
@@ -41,8 +47,12 @@ passport.use(
       try {
         // Find the user given the email
         const user = await Users.findOne({ email });
+        console.log('passport auth user', user);
+
         // If not found, handle error
         if (!user) {
+          console.log('passport auth rejected');
+
           return done(null, false);
         }
         // Check if password is correct
@@ -50,6 +60,8 @@ passport.use(
 
         // If not, handle error
         if (!doPassesMatch) {
+          console.log('passport auth rejected bad pass');
+
           return done(null, false);
         }
 

@@ -9,20 +9,27 @@ class LoginForm extends React.Component {
 
     this.state = {
       email: '',
-      password: '',
-      error: ''
+      password: ''
     };
 
-    // this.handleChangeField = this.handleChangeField.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChangeField = this.handleChangeField.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  onSubmit(data, history) {
+    if (data.user) {
+      const token = data.token;
+      localStorage.setItem('jwtToken', token);
+      setAuthToken(token);
+      history.push('/home');
+    }
   }
 
   handleSubmit() {
-    const { onSubmit, history } = this.props;
+    const { history } = this.props;
     const { email, password } = this.state;
 
     axios
-      .post('/api/signup', {
+      .post('/api/users/signup', {
         email,
         password
       })
@@ -52,7 +59,8 @@ class LoginForm extends React.Component {
           placeholder="Email"
           value={email}
         />
-        <textarea
+        <input
+          type="password"
           onChange={ev => this.handleChangeField('password', ev)}
           className="form-control my-3"
           placeholder="Password"
@@ -69,16 +77,17 @@ class LoginForm extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  onSubmit: (data, history) => {
-    if (data.user) {
-      history.push('/login');
-    }
-    return this.setState({ error: data.error });
-  }
-});
+// const mapDispatchToProps = dispatch => ({
+//   onSubmit: (data, history) => {
+//     if (data.user) {
+//       history.push('/login');
+//     }
+//     return this.setState({ error: data.error });
+//   }
+// });
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(withRouter(LoginForm));
+// export default connect(
+//   null,
+//   mapDispatchToProps
+// )(withRouter(LoginForm));
+export default withRouter(LoginForm);

@@ -37,7 +37,7 @@ class Home extends React.Component {
       <div className="container">
         <div className="row pt-5">
           <div className="col-12 col-lg-6 offset-lg-3">
-            <h1 className="text-center">fffff</h1>
+            <h1 className="text-center">Submit an article!</h1>
           </div>
           <Form />
         </div>
@@ -87,7 +87,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onLoad: data => dispatch({ type: 'HOME_PAGE_LOADED', data }),
+  onLoad: data => {
+    console.log('home onLoad', data);
+    dispatch({ type: 'HOME_PAGE_LOADED', data });
+  },
   onDelete: id => dispatch({ type: 'DELETE_ARTICLE', id }),
   setEdit: article => dispatch({ type: 'SET_EDIT', article })
 });

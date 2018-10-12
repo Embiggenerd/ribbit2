@@ -45,13 +45,21 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '..', 'client', 'public')));
 app.use(
   session({
-    secret: 'LightBlog',
+    secret: 'JwtBlog',
     cookie: { maxAge: 60000 },
     resave: false,
     saveUninitialized: false
   })
 );
-
+app.options('/*', function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Content-Type, Authorization, Content-Length, X-Requested-With'
+  );
+  res.send(200);
+});
 // if()
 // mongoose.connect('mongodb://igor:password1@ds245210.mlab.com:45210/simple_blog_dev');
 // mongoose.set('debug', true);

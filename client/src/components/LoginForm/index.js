@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { setAuthToken } from '../../utils';
 
@@ -10,28 +9,36 @@ class LoginForm extends React.Component {
 
     this.state = {
       email: '',
-      password: '',
-      error: ''
+      password: ''
     };
 
-    // this.handleChangeField = this.handleChangeField.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChangeField = this.handleChangeField.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  onSubmit(data, history) {
+    if (data.token) {
+      const token = data.token;
+      localStorage.setItem('jwtToken', token);
+      setAuthToken(token);
+      this.setState({ email: '', password: '' });
+      history.push('/home');
+    }
   }
 
   handleSubmit() {
-    const { onSubmit, history } = this.props;
+    const { history } = this.props;
     const { email, password } = this.state;
 
     axios
-      .post('/api/signin', {
+      .post('/api/users/signin', {
         email,
         password
       })
       .then(res => {
         console.log('login res.data', res.data);
-        onSubmit(res.data, history);
-      })
-      .then(() => this.setState({ email: '', password: '' }));
+        this.onSubmit(res.data, history);
+      });
   }
 
   handleChangeField(key, event) {
@@ -52,7 +59,8 @@ class LoginForm extends React.Component {
           placeholder="Email"
           value={email}
         />
-        <textarea
+        <input
+          type="password"
           onChange={ev => this.handleChangeField('password', ev)}
           className="form-control my-3"
           placeholder="Password"
@@ -69,20 +77,21 @@ class LoginForm extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  onSubmit: (data, history) => {
-    if (data.user) {
-      const token = data.token;
-      LocalStorage.setItem('jwtToken', token);
-      setAuthToken(token);
-      dispatch({ type: 'AUTH_USER', data });
-      return history.push('/home');
-    }
-    return this.setState({ error: data.error });
-  }
-});
+// const mapDispatchToProps = dispatch => ({
+//   onSubmit: (data, history) => {
+//     if (data.user) {
+//       const token = data.token;
+//       localStorage.setItem('jwtToken', token);
+//       setAuthToken(token);
+//       // dispatch({ type: 'USER_EMAIL', data });
+//       return history.push('/home');
+//     }
+//     return this.setState({ error: data.error });
+//   }
+// });
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(withRouter(LoginForm));
+// export default connect(
+//   null,
+//   mapDispatchToProps
+// )(withRouter(LoginForm));
+export default withRouter(LoginForm);

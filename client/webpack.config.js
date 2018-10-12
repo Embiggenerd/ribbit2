@@ -74,14 +74,10 @@ module.exports = {
 
   devServer: {
     historyApiFallback: true,
-    // hot: true,
-    // // publicPath: 'http://localhost:8080/client/public',
-    // // contentBase:
-    // contentBase: resolve(__dirname, 'public'),
 
     proxy: {
       '/api': 'http://localhost:8000'
     }
   },
-  devtool: "eval-source-map "
+  devtool: 'eval-source-map '
 };

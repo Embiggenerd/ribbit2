@@ -19,6 +19,7 @@ module.exports = {
     // consumes email, password, user name, validates data
     const { email, password } = req.value.body;
     // Check if user already exists
+    console.log('signup body', req.value.body);
     const foundUser = await User.findOne({ email });
     if (foundUser) {
       return res
@@ -30,8 +31,14 @@ module.exports = {
       email,
       password
     });
+    console.log('signup newuser', newUser);
+
     const user = await newUser.save();
+    console.log('signup saved user', user);
+
     const token = signToken(user);
+    console.log('signup token', token);
+
     res.status(200).json({
       user: user.toJSON(),
       token
@@ -43,16 +50,33 @@ module.exports = {
    * is data that has already been validated
    */
   signIn: async (req, res, next) => {
-    const { user } = req.value.body;
-    console.log('uzer', user);
-    const token = signToken(user);
-    // res with token so user can store it to stay logged in
-    //delete user.prototype.password
-    res.status(200).json({ token, user: user.toJSON() });
+    try {
+      console.log('signin req.value.body', req.value.body);
+      console.log('signin req.body', req.body);
+      console.log('signin req.user', req.user);
+
+      const { user } = req;
+      console.log('uzer', user);
+      const token = signToken(user);
+      // res with token so user can store it to stay logged in
+      //delete user.prototype.password
+      res.status(200).json({ token, user: user.toJSON() });
+    } catch (e) {
+      console.log(e);
+    }
   },
 
   secret: async (req, res, next) => {
-    res.json({ secret: 'resource' });
+    // if (!req.headers.authorization) {
+    //   return res.json({ error: 'No credentials sent!' });
+    // }
+    const { email } = req.user;
+    console.log('secret req.user,', req.user);
+    res.json({
+      user: {
+        email
+      }
+    });
   },
 
   stripe: async (req, res, next) => {

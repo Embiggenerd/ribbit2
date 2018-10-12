@@ -1,11 +1,20 @@
 //const mongoose = require('mongoose')
 const router = require('express').Router();
+const passport = require('passport');
 
 const articlesController = require('../../controllers').articles;
 
-router.post('/', articlesController.submitArticle);
+router.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  articlesController.submitArticle
+);
 
-router.get('/', articlesController.getArticles);
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  articlesController.getArticles
+);
 
 router.param('id', articlesController.idParam);
 
