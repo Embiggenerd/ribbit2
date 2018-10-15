@@ -30,7 +30,7 @@ router
 router
   .route('/secret')
   .get(
-    passport.authenticate('jwt', { session: false }),
+    passport.authenticate('jwt', { session: false, failWithError: true }),
     usersController.secret
   );
 

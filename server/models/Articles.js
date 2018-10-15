@@ -6,8 +6,8 @@ const ArticlesSchema = new Schema(
   {
     title: String,
     body: String,
-    author: String
-    // authorId:
+    author: String,
+    authorId: Schema.Types.ObjectId
   },
   { timestamps: true }
 );
@@ -18,6 +18,7 @@ ArticlesSchema.methods.toJSON = function() {
     title: this.title,
     body: this.body,
     author: this.author,
+    authorId: this.authorId,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt
   };

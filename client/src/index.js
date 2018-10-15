@@ -5,6 +5,7 @@ import { setAuthToken } from './utils';
 import { Provider } from 'react-redux';
 import store from './store';
 import { App } from './components';
+import axios from 'axios';
 import '../resources/scss/style.scss';
 
 setAuthToken(localStorage.jwtToken);

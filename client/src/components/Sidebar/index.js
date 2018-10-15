@@ -1,7 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import axios from 'axios';
 
-const Sidebar = () => {
+const Sidebar = props => {
+  const { history } = props;
+  axios.interceptors.response.use(
+    response => {
+      return response;
+    },
+    error => {
+      if (error.response.status === 401) {
+        history.push('/');
+      }
+      return { data: error };
+    }
+  );
   return (
     <nav className="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
       <ul className="nav flex-column">
@@ -30,4 +43,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default withRouter(Sidebar);

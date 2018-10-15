@@ -1,6 +1,6 @@
-import React from "react";
-import axios from "axios";
-import { connect } from "react-redux";
+import React from 'react';
+import axios from 'axios';
+import { connect } from 'react-redux';
 
 /*
 * Form's values are bound to state.
@@ -13,9 +13,9 @@ class Form extends React.Component {
     super(props);
 
     this.state = {
-      title: "",
-      body: "",
-      author: ""
+      title: '',
+      body: '',
+      author: ''
     };
 
     this.handleChangeField = this.handleChangeField.bind(this);
@@ -38,16 +38,15 @@ class Form extends React.Component {
 
     if (!articleToEdit) {
       return axios
-        .post("/api/articles", {
+        .post('/api/articles', {
           title,
           body,
           author
         })
         .then(res => {
-          console.log('res.data', res.data)
           return onSubmit(res.data);
         })
-        .then(() => this.setState({ title: "", body: "", author: "" }));
+        .then(() => this.setState({ title: '', body: '', author: '' }));
     } else {
       return axios
         .patch(`/api/articles/${articleToEdit._id}`, {
@@ -56,7 +55,7 @@ class Form extends React.Component {
           author
         })
         .then(res => onEdit(res.data))
-        .then(() => this.setState({ title: "", body: "", author: "" }));
+        .then(() => this.setState({ title: '', body: '', author: '' }));
     }
   }
 
@@ -73,19 +72,19 @@ class Form extends React.Component {
     return (
       <div className="col-12 col-lg-6 offset-lg-3">
         <input
-          onChange={ev => this.handleChangeField("title", ev)}
+          onChange={ev => this.handleChangeField('title', ev)}
           value={title}
           className="form-control my-3"
           placeholder="Article Title"
         />
         <textarea
-          onChange={ev => this.handleChangeField("body", ev)}
+          onChange={ev => this.handleChangeField('body', ev)}
           className="form-control my-3"
           placeholder="Article Body"
           value={body}
         />
         <input
-          onChange={ev => this.handleChangeField("author", ev)}
+          onChange={ev => this.handleChangeField('author', ev)}
           value={author}
           className="form-control my-3"
           placeholder="Article Author"
@@ -94,7 +93,7 @@ class Form extends React.Component {
           onClick={this.handleSubmit}
           className="btn btn-primary float-right"
         >
-          {articleToEdit ? "Update" : "Submit"}
+          {articleToEdit ? 'Update' : 'Submit'}
         </button>
       </div>
     );
@@ -102,8 +101,8 @@ class Form extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onSubmit: data => dispatch({ type: "SUBMIT_ARTICLE", data }),
-  onEdit: data => dispatch({ type: "EDIT_ARTICLE", data })
+  onSubmit: data => dispatch({ type: 'SUBMIT_ARTICLE', data }),
+  onEdit: data => dispatch({ type: 'EDIT_ARTICLE', data })
 });
 
 const mapStateToProps = state => ({

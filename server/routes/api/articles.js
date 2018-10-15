@@ -6,13 +6,13 @@ const articlesController = require('../../controllers').articles;
 
 router.post(
   '/',
-  passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false, failWithError: true }),
   articlesController.submitArticle
 );
 
 router.get(
   '/',
-  passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false, failWithError: true }),
   articlesController.getArticles
 );
 

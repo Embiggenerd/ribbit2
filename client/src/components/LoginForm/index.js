@@ -18,11 +18,13 @@ class LoginForm extends React.Component {
 
   onSubmit(data, history) {
     if (data.token) {
-      const token = data.token;
-      localStorage.setItem('jwtToken', token);
-      setAuthToken(token);
-      this.setState({ email: '', password: '' });
-      history.push('/home');
+      try {
+        const token = data.token;
+        localStorage.setItem('jwtToken', token);
+        setAuthToken(token);
+        this.setState({ email: '', password: '' });
+        history.push('/home');
+      } catch (e) {}
     }
   }
 
@@ -36,7 +38,6 @@ class LoginForm extends React.Component {
         password
       })
       .then(res => {
-        console.log('login res.data', res.data);
         this.onSubmit(res.data, history);
       });
   }

@@ -6,7 +6,6 @@ export default (state = { articles: [] }, action) => {
         articles: action.data.articles
       };
     case 'SUBMIT_ARTICLE':
-      console.log('sub_article reducer', action);
       return {
         ...state,
         articles: [action.data.article].concat(state.articles)

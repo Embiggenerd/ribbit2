@@ -10,7 +10,6 @@ import {
   RegisterForm,
   Logout
 } from '../../components';
-console.log('uzer', User);
 
 const App = props => {
   return (

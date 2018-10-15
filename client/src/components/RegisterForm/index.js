@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { setAuthToken } from '../../utils';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -20,6 +20,7 @@ class LoginForm extends React.Component {
       const token = data.token;
       localStorage.setItem('jwtToken', token);
       setAuthToken(token);
+      this.setState({ email: '', password: '' });
       history.push('/home');
     }
   }
@@ -34,10 +35,8 @@ class LoginForm extends React.Component {
         password
       })
       .then(res => {
-        console.log('login res.data', res.data);
-        onSubmit(res.data, history);
-      })
-      .then(() => this.setState({ email: '', password: '' }));
+        this.onSubmit(res.data, history);
+      });
   }
 
   handleChangeField(key, event) {
@@ -51,7 +50,9 @@ class LoginForm extends React.Component {
 
     return (
       <div className="col-12 col-lg-6 offset-lg-3">
-        <h1 className="text-center">Enter your email and password to login!</h1>
+        <h1 className="text-center">
+          Enter your email and password to register!
+        </h1>
 
         <input
           onChange={ev => this.handleChangeField('email', ev)}
@@ -77,17 +78,4 @@ class LoginForm extends React.Component {
   }
 }
 
-// const mapDispatchToProps = dispatch => ({
-//   onSubmit: (data, history) => {
-//     if (data.user) {
-//       history.push('/login');
-//     }
-//     return this.setState({ error: data.error });
-//   }
-// });
-
-// export default connect(
-//   null,
-//   mapDispatchToProps
-// )(withRouter(LoginForm));
 export default withRouter(LoginForm);

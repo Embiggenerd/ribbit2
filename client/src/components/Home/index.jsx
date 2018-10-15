@@ -3,6 +3,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { Form } from '../../components/Article';
+import { withRouter } from 'react-router-dom';
 
 class Home extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class Home extends React.Component {
 
   componentDidMount() {
     const { onLoad } = this.props;
-    axios(' /api/articles').then(res => onLoad(res.data));
+    axios(' /api/articles').then(res => (res.data ? onLoad(res.data) : {}));
   }
 
   handleDelete(id) {
@@ -30,8 +31,6 @@ class Home extends React.Component {
   }
 
   render() {
-    console.log("home's props:", this.props);
-
     const { articles } = this.props;
     return (
       <div className="container">
@@ -88,7 +87,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onLoad: data => {
-    console.log('home onLoad', data);
     dispatch({ type: 'HOME_PAGE_LOADED', data });
   },
   onDelete: id => dispatch({ type: 'DELETE_ARTICLE', id }),
