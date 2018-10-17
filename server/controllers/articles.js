@@ -58,14 +58,6 @@ const submitArticle = async (req, res, next) => {
     // () => console.log("eee", e);
     next(e);
   }
-
-  // return finalArticle
-  //   .save()
-  //   .then(() => {
-  //     const rez = res.json({ article: finalArticle.toJSON() });
-  //     console.log('submist articles req after saving', rez);
-  //   })
-  //   .catch(err, next(err));
 };
 
 const updateArticle = (req, res, next) => {

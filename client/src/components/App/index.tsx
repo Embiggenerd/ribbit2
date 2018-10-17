@@ -11,7 +11,9 @@ import {
   Logout
 } from '../../components';
 
-const App = props => {
+interface Props {}
+
+const App = (props: Props) => {
   return (
     <div className="container-fluid">
       <div className="row">

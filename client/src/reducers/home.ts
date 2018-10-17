@@ -1,4 +1,11 @@
-export default (state = { articles: [] }, action) => {
+import { Home } from '../types';
+import { Reducer } from 'redux';
+
+const initialState: Home = {
+  articles: []
+};
+
+const reducer: Reducer<Home> = (state = initialState, action) => {
   switch (action.type) {
     case 'HOME_PAGE_LOADED':
       return {
@@ -37,3 +44,5 @@ export default (state = { articles: [] }, action) => {
       };
   }
 };
+
+export default reducer;

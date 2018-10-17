@@ -22,3 +22,9 @@ html {
   width: 100%;
   min-height: 1px;
 }
+
+#error-div {
+  opacity: 1;
+  transition: 1s opacity;
+  color: red;
+}

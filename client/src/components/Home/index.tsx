@@ -1,12 +1,36 @@
 import React from 'react';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { Form } from '../../components/Article';
-import { withRouter } from 'react-router-dom';
+import { Dispatch } from 'redux';
 
-class Home extends React.Component {
-  constructor(props) {
+import { StoreState, Article } from '../../types';
+
+interface OwnProps {}
+
+interface StateProps {
+  articles: [Article];
+}
+
+interface DispatchProps {
+  onLoad: (data: AxiosResponse) => any;
+  onDelete: (id: string) => any;
+  setEdit: (article: Article) => any;
+}
+
+interface State {
+  title: string;
+  body: string;
+  author: string;
+}
+
+type Props = OwnProps & DispatchProps & StateProps;
+
+// type StateKeys = keyof State;
+
+class Home extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.handleDelete = this.handleDelete.bind(this);
@@ -18,13 +42,13 @@ class Home extends React.Component {
     axios(' /api/articles').then(res => (res.data ? onLoad(res.data) : {}));
   }
 
-  handleDelete(id) {
+  handleDelete(id: string) {
     const { onDelete } = this.props;
     // test this to see if backend delete fail results in front end delete success
     return axios.delete(`/api/articles/${id}`).then(() => onDelete(id));
   }
 
-  handleEdit(article) {
+  handleEdit(article: Article) {
     const { setEdit } = this.props;
 
     setEdit(article);
@@ -81,16 +105,16 @@ class Home extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StoreState) => ({
   articles: state.home.articles
 });
 
-const mapDispatchToProps = dispatch => ({
-  onLoad: data => {
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  onLoad: (data: AxiosResponse) => {
     dispatch({ type: 'HOME_PAGE_LOADED', data });
   },
-  onDelete: id => dispatch({ type: 'DELETE_ARTICLE', id }),
-  setEdit: article => dispatch({ type: 'SET_EDIT', article })
+  onDelete: (id: string) => dispatch({ type: 'DELETE_ARTICLE', id }),
+  setEdit: (article: Article) => dispatch({ type: 'SET_EDIT', article })
 });
 
 export default connect(

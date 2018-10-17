@@ -1,6 +1,8 @@
 import React from 'react';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { StoreState, Article } from '../../../types';
 
 /*
 * Form's values are bound to state.
@@ -8,8 +10,29 @@ import { connect } from 'react-redux';
 * This set's the form's values, and allows us to send patch request to server
 * because the submit/update button invokes post/patch request depending on if articleToEdit's truthiness*/
 
-class Form extends React.Component {
-  constructor(props) {
+interface StateProps {
+  articleToEdit: Article;
+}
+
+interface DispatchProps {
+  onSubmit: (data: AxiosResponse) => any;
+  onEdit: (data: AxiosResponse) => any;
+}
+
+interface OwnProps {}
+
+interface State {
+  title: string;
+  body: string;
+  author: string;
+}
+
+type StateKeys = keyof State;
+
+type Props = StateProps & DispatchProps & OwnProps;
+
+class Form extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -22,7 +45,7 @@ class Form extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (nextProps.articleToEdit) {
       this.setState({
         title: nextProps.articleToEdit.title,
@@ -59,10 +82,10 @@ class Form extends React.Component {
     }
   }
 
-  handleChangeField(key, event) {
+  handleChangeField(key: StateKeys, event: { target: { value: string } }) {
     this.setState({
       [key]: event.target.value
-    });
+    } as Pick<State, keyof State>);
   }
 
   render() {
@@ -100,12 +123,12 @@ class Form extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  onSubmit: data => dispatch({ type: 'SUBMIT_ARTICLE', data }),
-  onEdit: data => dispatch({ type: 'EDIT_ARTICLE', data })
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  onSubmit: (data: AxiosResponse) => dispatch({ type: 'SUBMIT_ARTICLE', data }),
+  onEdit: (data: AxiosResponse) => dispatch({ type: 'EDIT_ARTICLE', data })
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StoreState) => ({
   articleToEdit: state.home.articleToEdit
 });
 

@@ -1,10 +1,25 @@
 import React from 'react';
-import axios from 'axios';
-import { withRouter } from 'react-router-dom';
+import axios, { AxiosResponse } from 'axios';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { setAuthToken } from '../../utils';
+import { History } from 'history';
 
-class LoginForm extends React.Component {
-  constructor(props) {
+interface AxiosResponseWithToken extends AxiosResponse {
+  token: string;
+  user: {};
+}
+
+interface Props extends RouteComponentProps {}
+
+interface State {
+  email: string;
+  password: string;
+}
+
+type StateKeys = keyof State;
+
+class LoginForm extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -15,16 +30,13 @@ class LoginForm extends React.Component {
     this.handleChangeField = this.handleChangeField.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  onSubmit(data, history) {
-    if (data.token) {
-      try {
-        const token = data.token;
-        localStorage.setItem('jwtToken', token);
-        setAuthToken(token);
-        this.setState({ email: '', password: '' });
-        history.push('/home');
-      } catch (e) {}
+  onSubmit(data: AxiosResponseWithToken, history: History) {
+    if (data.user) {
+      const token = data.token;
+      localStorage.setItem('jwtToken', token);
+      setAuthToken(token);
+      this.setState({ email: '', password: '' });
+      history.push('/home');
     }
   }
 
@@ -33,7 +45,7 @@ class LoginForm extends React.Component {
     const { email, password } = this.state;
 
     axios
-      .post('/api/users/signin', {
+      .post('/api/users/signup', {
         email,
         password
       })
@@ -42,10 +54,10 @@ class LoginForm extends React.Component {
       });
   }
 
-  handleChangeField(key, event) {
+  handleChangeField(key: StateKeys, event: { target: { value: string } }) {
     this.setState({
       [key]: event.target.value
-    });
+    } as Pick<State, keyof State>);
   }
 
   render() {
@@ -53,7 +65,10 @@ class LoginForm extends React.Component {
 
     return (
       <div className="col-12 col-lg-6 offset-lg-3">
-        <h1 className="text-center">Enter your email and password to login!</h1>
+        <h1 className="text-center">
+          Enter your email and password to register!
+        </h1>
+
         <input
           onChange={ev => this.handleChangeField('email', ev)}
           className="form-control my-3"
@@ -78,21 +93,4 @@ class LoginForm extends React.Component {
   }
 }
 
-// const mapDispatchToProps = dispatch => ({
-//   onSubmit: (data, history) => {
-//     if (data.user) {
-//       const token = data.token;
-//       localStorage.setItem('jwtToken', token);
-//       setAuthToken(token);
-//       // dispatch({ type: 'USER_EMAIL', data });
-//       return history.push('/home');
-//     }
-//     return this.setState({ error: data.error });
-//   }
-// });
-
-// export default connect(
-//   null,
-//   mapDispatchToProps
-// )(withRouter(LoginForm));
 export default withRouter(LoginForm);
