@@ -40,38 +40,49 @@ class Sidebar extends React.Component<Props, State> {
         if (error.response.status === 401) {
           history.push('/');
           this.onError(error.response.data.errors.message);
-          return { data: error };
+        } else if (error.response.status === 422) {
+          const errorMsg =
+            Object.keys(error.response.data.errors) +
+            ' ' +
+            error.response.data.errors.title;
+          this.onError(errorMsg);
+        } else if (error.response.status === 403) {
+          this.onError(error.response.data.error);
         } else {
           this.onError(error.response.data.details[0].message);
-          return { data: error };
         }
+        Promise.reject(error);
       }
     );
     return (
-      <nav className="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
-        <ul className="nav flex-column">
-          <li className="nav-item">
-            <Link className="nav-link" to="/home">
-              Home
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/register">
-              Register
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/login">
-              Login
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/logout">
-              Logout
-            </Link>
-          </li>
-        </ul>
-        <div id="error-div">{this.state.error}</div>
+      <nav className="col-2">
+        <div className="container-fluid nav-container">
+          <div className="row pt-5">
+            <ul className="nav flex-column">
+              <li className="nav-item">
+                <Link className="nav-link" to="/home">
+                  Home
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/register">
+                  Register
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/login">
+                  Login
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/logout">
+                  Logout
+                </Link>
+              </li>
+            </ul>
+            <div id="error-div">{this.state.error}</div>
+          </div>
+        </div>
       </nav>
     );
   }

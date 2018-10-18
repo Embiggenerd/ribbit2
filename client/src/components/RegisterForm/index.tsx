@@ -64,30 +64,38 @@ class LoginForm extends React.Component<Props, State> {
     const { email, password } = this.state;
 
     return (
-      <div className="col-12 col-lg-6 offset-lg-3">
-        <h1 className="text-center">
-          Enter your email and password to register!
-        </h1>
+      <div className="col">
+        <div className="container-fluid">
+          <div className="content">
+            <div className="row pt-5">
+              <div className="col-12 col-lg-6 offset-lg-3">
+                <h1 className="text-center">
+                  Enter your email and password to register!
+                </h1>
 
-        <input
-          onChange={ev => this.handleChangeField('email', ev)}
-          className="form-control my-3"
-          placeholder="Email"
-          value={email}
-        />
-        <input
-          type="password"
-          onChange={ev => this.handleChangeField('password', ev)}
-          className="form-control my-3"
-          placeholder="Password"
-          value={password}
-        />
-        <button
-          onClick={this.handleSubmit}
-          className="btn btn-primary float-right"
-        >
-          Submit
-        </button>
+                <input
+                  onChange={ev => this.handleChangeField('email', ev)}
+                  className="form-control my-3"
+                  placeholder="Email"
+                  value={email}
+                />
+                <input
+                  type="password"
+                  onChange={ev => this.handleChangeField('password', ev)}
+                  className="form-control my-3"
+                  placeholder="Password"
+                  value={password}
+                />
+                <button
+                  onClick={this.handleSubmit}
+                  className="btn btn-primary float-right"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

@@ -67,9 +67,10 @@ class Form extends React.Component<Props, State> {
           author
         })
         .then(res => {
-          return onSubmit(res.data);
+          onSubmit(res.data);
         })
-        .then(() => this.setState({ title: '', body: '', author: '' }));
+        .then(() => this.setState({ title: '', body: '', author: '' }))
+        .catch(e => console.log('post error', e));
     } else {
       return axios
         .patch(`/api/articles/${articleToEdit._id}`, {
@@ -78,7 +79,8 @@ class Form extends React.Component<Props, State> {
           author
         })
         .then(res => onEdit(res.data))
-        .then(() => this.setState({ title: '', body: '', author: '' }));
+        .then(() => this.setState({ title: '', body: '', author: '' }))
+        .catch(e => console.log(e));
     }
   }
 
@@ -124,7 +126,10 @@ class Form extends React.Component<Props, State> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  onSubmit: (data: AxiosResponse) => dispatch({ type: 'SUBMIT_ARTICLE', data }),
+  onSubmit: (data: AxiosResponse) => {
+    console.log('onsubmit data', JSON.stringify(data));
+    dispatch({ type: 'SUBMIT_ARTICLE', data });
+  },
   onEdit: (data: AxiosResponse) => dispatch({ type: 'EDIT_ARTICLE', data })
 });
 

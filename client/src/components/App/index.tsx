@@ -16,7 +16,7 @@ interface Props {}
 const App = (props: Props) => {
   return (
     <div className="container-fluid">
-      <div className="row">
+      <div className="row layout">
         <Sidebar />
         <Switch>
           <Route exact path="/" component={User} />

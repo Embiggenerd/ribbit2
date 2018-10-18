@@ -5,16 +5,12 @@ import { History } from 'history';
 
 interface Props extends RouteComponentProps {}
 
-interface Data {
-  user: any;
-}
-
 class User extends React.Component<Props, {}> {
   // on mount make api call to secret
   // if token is valid, push home to history
   // if token invalid, push to login or signup
-  onMount(data: Data, history: History) {
-    if (data.user) {
+  onMount(data: AxiosResponse, history: History) {
+    if (data) {
       return history.push('/home');
     }
     history.push('/login');
@@ -24,9 +20,11 @@ class User extends React.Component<Props, {}> {
     axios
       .get('/api/users/secret')
       .then(res => {
-        this.onMount(res.data, history);
+        this.onMount(res, history);
       })
-      .catch(e => console.log(e));
+      .catch(e => {
+        this.onMount(e, history);
+      });
   }
   render() {
     return <div />;

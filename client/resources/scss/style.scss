@@ -1,29 +1,56 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito|Poppins:500|Open+Sans');
 @import '~bootstrap/scss/bootstrap';
 
-body,
-html {
+$bg-color: rgb(230, 230, 230);
+$color: black;
+$layout-color: rgb(219, 219, 219);
+$font-fam: 'Nunito';
+
+html,
+body {
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.018);
-  color: rgba(0, 0, 0, 0.75);
-  font-family: 'Nunito';
+  background-color: $bg-color;
+  color: $color;
+  font-family: $font-fam;
 }
 
-.sidebar {
-  position: fixed;
-  top: 51px;
-  bottom: 0;
-  left: 0;
-  z-index: 1000;
-  padding: 20px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  border-right: 1px solid #eee;
-  width: 100%;
-  min-height: 1px;
+.layout {
+  height: 100%;
+  min-width: 960px;
+}
+
+.nav-link {
+  margin-left: 25%;
+}
+
+#root {
+  height: 100vh;
+}
+
+.nav-container {
+  margin-top: 15vh;
+  margin-left: 33%;
+  background-color: $layout-color;
+  min-height: 365px;
+  font-size: 1.2em;
+  min-height: 365px;
+  border: solid 2px rgb(210, 210, 210);
+}
+
+.content {
+  margin-top: 15vh;
+  background-color: $layout-color;
+  min-height: 365px;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  border: solid 2px rgb(210, 210, 210);
 }
 
 #error-div {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 20px;
   opacity: 1;
   transition: 1s opacity;
   color: red;
