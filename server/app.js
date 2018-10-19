@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 const isProd = process.env.NODE_ENV === 'production';
-// const isTest = process.env.NODE_ENV === 'test';
+
 const isDev = process.env.NODE_ENV === 'development';
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
@@ -30,13 +30,6 @@ if (isProd) {
     'mongodb://ribbit2-prod:ribbit2-prod@ds163530.mlab.com:63530/ribbit2'
   );
 }
-
-// if (isTest) {
-//   mongoose.connect(
-//     'mongodb://ribbit2-test:ribbit2-test@ds263590.mlab.com:63590/ribbit2-test'
-//   );
-//   //app.use(errorHandler());
-// }
 
 app.use(cors());
 app.use(require('morgan')('dev'));
@@ -60,9 +53,6 @@ app.options('/*', function(req, res, next) {
   );
   res.send(200);
 });
-// if()
-// mongoose.connect('mongodb://igor:password1@ds245210.mlab.com:45210/simple_blog_dev');
-// mongoose.set('debug', true);
 
 require('./models/Articles');
 

@@ -3,7 +3,13 @@
   "version": "1.0.0",
   "description": "'https://github.com/AntonioErdeljac/Blog-Tutorial/tree/master/client'",
   "main": "app.js",
+  "engines": {
+    "node": "10.10.00"
+  },
   "scripts": {
+    "build:frontend": "npm run build --prefix client",
+    "prod": "concurrently \"NODE_ENV=production node index.js\" \"npm run build:frontend\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client",
     "server-dev": "cross-env NODE_ENV=development nodemon server/index.js",
     "client-dev": "npm start --prefix client",
     "start-dev": "concurrently \"npm run server-dev\" \"npm run client-dev\"",
