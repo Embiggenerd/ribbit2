@@ -12,9 +12,8 @@ This is using heroku's free tier, so the dyno may be asleep. Give it 10 seconds 
 
 Clone the repo, run npm install in server and client, and run npm run dev from the root folder. 
 
-### Purpose
+## Demonstrates
 
-Demonstrates:
 * custom webpack config 
 * typescript implementation 
 * jwt auth implemenetation
