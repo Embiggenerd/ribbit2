@@ -4,7 +4,7 @@ A simple todo-like app written in react/node with typescript and jwt authenticat
 
 ## Visit the Site
 
-[Todos with typescript](https://serene-peak-33374.herokuapp.com/)
+[Todos with typescript](https://obscure-coast-57866.herokuapp.com/)
 
 This is using heroku's free tier, so the dyno may be asleep. Give it 10 seconds to startup if you don't see anything.
 
