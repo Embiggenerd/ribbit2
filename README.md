@@ -15,7 +15,7 @@ Clone the repo, run npm install in server and client, and run npm run dev from t
 ### Purpose
 
 Demonstrates:
-* custom webpac config 
+* custom webpack config 
 * typescript implementation 
 * jwt auth implemenetation
 * error handling with axios middleware
